@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Python Quiz Game</title>
+
+<style>
+body{
+    font-family: Arial;
+    background: linear-gradient(135deg,#4facfe,#00f2fe);
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.quiz-box{
+    background:white;
+    padding:30px;
+    width:450px;
+    border-radius:15px;
+    box-shadow:0 10px 25px rgba(0,0,0,.2);
+    text-align:center;
+}
+
+h2{
+    margin-bottom:10px;
+}
+
+.option{
+    display:block;
+    margin:10px 0;
+    padding:10px;
+    background:#f1f1f1;
+    border-radius:8px;
+    cursor:pointer;
+    transition:.3s;
+}
+
+.option:hover{
+    background:#4facfe;
+    color:white;
+}
+
+.timer{
+    font-weight:bold;
+    color:red;
+}
+</style>
+</head>
+
+<body>
+
+<div class="quiz-box">
+    <h2>🎉 Python Quiz Game</h2>
+    <p>I am Raghvendra Pandey. Thank you for visiting my site.</p>
+
+    <h3 id="question"></h3>
+
+    <div id="options"></div>
+
+    <p class="timer">⏱ Time Left: <span id="time">10</span>s</p>
+</div>
+
+<script>
+
+const questions = [
+{
+question:"Who is the inventor of Python?",
+options:["A. Dennis Ritchie","B. Guido van Rossum","C. James Gosling","D. Bjarne Stroustrup"],
+answer:"B"
+},
+{
+question:"Tell me symbol of list in Python?",
+options:["A. {}","B. []","C. ()","D. <>"],
+answer:"B"
+},
+{
+question:"Python kis type ki language hai?",
+options:["A. Low level","B. Machine level","C. High level","D. Assembly"],
+answer:"C"
+},
+{
+question:`What will be the output?
+x = [1,2,3]
+y = x
+y.append(4)
+print(x)`,
+options:["A. [1,2,3]","B. [1,2,3,4]","C. Error","D. None"],
+answer:"B"
+},
+{
+question:"What is the purpose of __init__ method in Python?",
+options:["A. To delete object","B. To stop execution","C. To initialize object","D. To import modules"],
+answer:"C"
+},
+{question:"How many types of operators are there in Python?",
+options:["A. 5","B. 6","C. 7","D. 8"],
+answer:"D"
+},
+{question:"Which keyword is used for function in Python?",
+options:["A. func","B. define","C. def","D. function"],
+answer:"C"
+},{question:"Which of the following is not a valid data type in Python?",
+options:["A. List","B. Tuple","C. Array","D. Dictionary"],
+answer:"C"
+},
+{question:"What is the output of print(2**3) in Python?",
+options:["A. 6","B. 8","C. 9","D. 5"],
+answer:"B"},
+{question:"Which of the following is used to handle exceptions in Python?",
+options:["A. try-except","B. if-else","C. for loop","   D. while loop"],
+answer:"A"
+},
+{question:"What is the file extension for Python files?",
+options:["A. .pyth","B. .pt","C. .pyt","D. .py"],
+answer:"D"
+},
+{question:"Which of the following is a mutable data type in Python?",
+options:["A. Tuple","B. String","C. List","D. Integer"],
+answer:"C"},
+{question:"Which of the following is unmutable in Python?",
+options:["A. List","B. Dictionary","C. Set","D. Tuple"],
+answer:"D"},
+{question:"What does the len() function do in Python?",
+options:["A. Returns the length of an object","B. Converts to integer","C. Converts to string","D. None of the above"],
+answer:"A"
+},{question:"Which keyword is used to create a class in Python?",
+options:["A. class","B. def","C. object","D. struct"],
+answer:"A"
+}
+];
+
+let current = 0;
+let score = 0;
+let time = 10;
+let timer;
+
+function loadQuestion(){
+
+    if(current === questions.length){
+        document.querySelector(".quiz-box").innerHTML =
+        `<h2>🎯 Quiz Finished!</h2>
+         <h3>Your Score: ${score}/${questions.length}</h3>`;
+        return;
+    }
+
+    time = 10;
+    document.getElementById("time").textContent = time;
+
+    const q = questions[current];
+
+    document.getElementById("question").textContent = q.question;
+
+    const optionsDiv = document.getElementById("options");
+    optionsDiv.innerHTML = "";
+
+    q.options.forEach(opt=>{
+        const btn = document.createElement("div");
+        btn.textContent = opt;
+        btn.classList.add("option");
+
+        btn.onclick = () =>{
+            if(opt[0] === q.answer){
+                score++;
+            }
+            nextQuestion();
+        };
+
+        optionsDiv.appendChild(btn);
+    });
+
+    startTimer();
+}
+
+function startTimer(){
+
+    clearInterval(timer);
+
+    timer = setInterval(()=>{
+        time--;
+        document.getElementById("time").textContent = time;
+
+        if(time === 0){
+            nextQuestion();
+        }
+
+    },1000);
+}
+
+function nextQuestion(){
+    clearInterval(timer);
+    current++;
+    loadQuestion();
+}
+
+loadQuestion();
+
+</script>
+
+</body>
+</html>
